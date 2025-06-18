@@ -1,0 +1,201 @@
+.index-page-content-wrapper {
+    margin-left: 0 !important;
+}
+
+.index-page-navbar-wrapper {
+    margin-left: 0 !important;
+    padding: 0 !important;
+}
+
+.index-page-navbar-wrapper ul.navbar-nav {
+    border-radius: 0%;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+}
+
+.index-page-footer {
+    margin-left: 0 !important;
+}
+
+.header-img {
+    padding-bottom: 3px;
+}
+
+@media (min-width: 768px) {
+    .index-page-navbar-wrapper ul.navbar-nav {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+}
+
+.content-wrapper>.content {
+    padding-bottom: 1rem;
+}
+
+#departments-container {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    padding: 1.75rem 1rem;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
+}
+
+#departments-container .card-title {
+    font-weight: 500;
+}
+
+#it_service_desk_card {
+    background: linear-gradient(285.74deg, #603CAD 0%, #0894FB 80.7%);
+}
+
+#it_service_desk_card .card-title {
+    color: #2B71DC;
+}
+
+#it_service_desk_card .tickets-card-link {
+    color: #0894FB !important;
+}
+
+#it_service_desk_card .tickets-card-link:hover {
+    background-color: #0894FB !important;
+    color: #fff !important;
+}
+#fk_service_desk_card {
+    background: linear-gradient(285.74deg, #d95f5f 0%, #fbcd08 80.7%);
+}
+#fk_service_desk_card .card-title {
+    color: #FBB10F;
+}
+
+#fk_service_desk_card .tickets-card-link {
+    color: #e37e47 !important;
+}
+
+#fk_service_desk_card .tickets-card-link:hover {
+    background-color: #de2a2a !important;
+    color: #fff !important;
+}
+
+#bs_service_desk_card {
+    background: linear-gradient(285.74deg, #2EA19F 0%, #08FBCF  80.7%);
+}
+
+#bs_service_desk_card .card-title {
+    color: #2EA19F;
+}
+
+#bs_service_desk_card .tickets-card-link {
+    color: #29ada5;
+}
+
+#bs_service_desk_card .tickets-card-link:hover {
+    background-color: #047662;
+    color: #fff;
+}
+
+
+#sw_service_desk_card {
+    background: linear-gradient(285.74deg, #3D3B39 0%, #F9C749 80.7%);
+}
+
+#sw_service_desk_card .card-title {
+    color: #FBB10F;
+}
+
+#sw_service_desk_card .tickets-card-link {
+    color: #E4B747;
+}
+
+#sw_service_desk_card .tickets-card-link:hover {
+    background-color: #E4B747 !important;
+    color: #fff !important;
+}
+
+
+
+#mt_service_desk_card {
+    background: linear-gradient(285.74deg, #5c2354 0%, #e032a7 80.7%);
+}
+ 
+#mt_service_desk_card .card-title {
+    color: #2B71DC;
+}
+ 
+#mt_service_desk_card .tickets-card-link {
+    color: #e032a7 !important;
+}
+ 
+#mt_service_desk_card .tickets-card-link:hover {
+    background-color: #de46ac !important;
+    color: #fff !important;
+}
+
+
+
+#ad_service_desk_card {
+    background: linear-gradient(285.74deg, #603CAD 0%, #DE8ED9 80.7%);
+}
+
+#ad_service_desk_card .card-title {
+    color: #B472CA;
+}
+
+#ad_service_desk_card .tickets-card-link {
+    color: #DE8ED9;
+}
+
+#ad_service_desk_card .tickets-card-link:hover {
+    background-color: #DE8ED9 !important;
+    color: #fff !important;
+}
+
+#hr_service_desk_card {
+    background: linear-gradient(285.74deg, #646464 0%, #a4a4a4 80.7%);
+}
+
+#hr_service_desk_card .card-title {
+    color: #8AA0C5;
+}
+
+#hr_service_desk_card .tickets-card-link {
+    color: #72747b;
+}
+
+#hr_service_desk_card .tickets-card-link:hover {
+    background-color: #b4b3b3;
+    color: #fff;
+}
+
+#dc_service_desk_card {
+    background: linear-gradient(285.74deg, #83282f 0%, #e43c3c 80.07%);
+}
+
+#dc_service_desk_card .card-title {
+    color: #2EA19F;
+}
+
+#dc_service_desk_card .tickets-card-link {
+    color: #d6393a;
+}
+
+#dc_service_desk_card .tickets-card-link:hover {
+    background-color: #ee3e3f;
+    color: #fff;
+}
+
+#oc_service_desk_card {
+    background: linear-gradient(285.74deg, #20600d 0%, #91e058 80.07%);
+}
+
+#oc_service_desk_card .card-title {
+    color: #2EA19F;
+}
+
+#oc_service_desk_card .tickets-card-link {
+    color: #59ab1d;
+}
+
+#oc_service_desk_card .tickets-card-link:hover {
+    background-color: #66b742;
+    color: #fff;
+}

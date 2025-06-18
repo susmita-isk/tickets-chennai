@@ -1,0 +1,196 @@
+#ticketDetailsContainer {
+    padding: 1.5rem;
+}
+
+#ticketMainDetailsHeader {
+    line-height: 1.55;
+}
+
+#ticketMainDetailsHeader>div {
+    font-size: 0.85rem;
+}
+
+#ticketSubject {
+    font-size: 1.25rem;
+    color: #739D73;
+}
+
+#headerRequesterName {
+    color: #739D73;
+}
+
+#ticketDetailsCardsContainer {
+    padding: 1rem;
+    border: none;
+    border-radius: 25px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
+}
+
+.ticket-details-card {
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.25);
+}
+
+.ticket-details-card strong {
+    font-weight: 600;
+}
+
+.ticket-details-card .card-header {
+    background-color: #739D73;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    border-bottom: none !important;
+    color: #fff;
+}
+
+.ticket-details-card-header-btn {
+    background-color: transparent;
+    font-size: 0.85rem;
+    border: 0;
+    padding: 0;
+    float: right;
+    opacity: 1;
+}
+
+.ticket-details-card-header-btn:hover,
+.ticket-details-card-header-btn:active {
+    opacity: 0.75;
+}
+
+#taggedTicketsTable thead th {
+    border-bottom: none !important;
+    font-weight: 600;
+}
+
+#taggedTicketsCard .card-body {
+    padding: 0.5rem 1rem;
+}
+
+#updatesHeader {
+    color: #739D73;
+    font-size: 1.5rem !important;
+}
+
+#updatesContainer .form-control {
+    border-radius: 12px;
+    font-size: 0.875rem;
+    box-shadow: 0px 0px 6px 0px #00000040;
+}
+
+.update-for-detail {
+    font-size: 1.125rem;
+    color: #525252;
+}
+
+.update-technician-name {
+    color: #739D73;
+}
+
+.update-message {
+    font-size: 0.75rem;
+}
+
+#edit-task-status-header {
+    position: absolute;
+    right: 3rem;
+}
+
+#ticketTasksTable thead {
+    background-color: #739D73;
+    color: #fff;
+}
+
+#ticketTasksTable thead th {
+    border-bottom: none !important;
+}
+
+#ticketTasksTable thead th:first-child {
+    border-top-left-radius: 14px;
+    border-bottom-left-radius: 14px;
+}
+
+#ticketTasksTable thead th:last-child {
+    border-top-right-radius: 14px;
+    border-bottom-right-radius: 14px;
+}
+
+#ticketTasksTable tbody tr:first-child td {
+    border-top: none !important;
+}
+
+#ticketLabelsContainer {
+    position: absolute;
+    right: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.575rem;
+}
+.update-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+}
+
+.update-for-detail {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.update-text {
+    color: #777;
+    font-size: 14px;
+}
+
+.update-technician-name {
+    font-weight: bold;
+    color: #333;
+}
+
+.update-message {
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.update-in-progress {
+    color: #007bff;
+}
+
+.update-completed {
+    color: #28a745;
+}
+/* Add your custom styles here */
+.custom-select {
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    color: #495057;
+}
+
+/* Style the selected option */
+.custom-select option:checked {
+    background-color: #007bff;
+    color: #fff;
+}
+
+#ticketDetailsContainer {
+    padding: 0.5rem !important;
+}
+/* Custom styling for Select2 to resemble Bootstrap form-control */
+.select2-container {
+    width: 100% !important; /* Adjust the width as needed */
+}
+
+.select2-container .select2-selection--single {
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border: 1px solid #ced4da;
+    border-radius: 18px;
+    box-shadow: 0px 0px 6px 0px #00000040;
+}
+
+.select2-container .select2-selection--single .select2-selection__arrow {
+    height: calc(1.5em + 0.75rem + 2px);
+}      

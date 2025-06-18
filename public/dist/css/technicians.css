@@ -1,0 +1,68 @@
+
+#techniciansContainer .table-responsive {
+    background-color: #fff;
+}
+
+#techniciansTable thead td {
+    border-top: 0;
+}
+
+.table-container {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.table-container .table-responsive {
+    border: 0;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
+}
+
+.table-action-btns-container {
+    gap: 12px;
+}
+
+* Pagination container */
+.dataTables_paginate {
+    text-align: center;
+}
+
+/* Pagination buttons */
+.dataTables_paginate a.paginate_button {
+    display: inline-block;
+    padding: 0.5em 1em;
+    margin: 0 5px;
+    border: 1px solid #739D73; /* Custom color border */
+    color: #739D73; /* Custom color text */
+    background-color: #fff; /* White background */
+    border-radius: 25px; /* Round border radius */
+    cursor: pointer;
+}
+
+/* Current page button */
+.dataTables_paginate a.paginate_button.current {
+    background-color: #739D73; /* Custom color background */
+    color: #fff; /* White text */
+}
+
+/* Disabled buttons */
+.dataTables_paginate a.paginate_button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Hover effect */
+.dataTables_paginate a.paginate_button:hover {
+    background-color: #739D73; /* Custom color background on hover */
+    color: #fff; /* White text on hover */
+}
+
+.table {
+    border: 1px solid #ccc;
+    overflow-x: hidden;
+  }
+
+  .table-responsive {
+    overflow-x: hidden;
+}
+ 

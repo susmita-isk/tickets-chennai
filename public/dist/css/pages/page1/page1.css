@@ -1,0 +1,77 @@
+#it_service_desk_card {
+    background: linear-gradient(285.74deg, #603CAD 0%, #0894FB 80.7%);
+}
+
+#it_service_desk_card .card-title {
+    color: #2B71DC;
+}
+
+#it_service_desk_card .tickets-card-link {
+    color: #0894FB !important;
+}
+
+#sw_service_desk_card {
+    background: linear-gradient(355.13deg, #3D3B39 -53.26%, #F9C749 96.31%);
+}
+
+#sw_service_desk_card .card-title {
+    color: #FBB10F;
+}
+
+#sw_service_desk_card .tickets-card-link {
+    color: #E4B747;
+}
+
+#agile_service_desk_card {
+    background: linear-gradient(285.74deg, #603CAD 0%, #DE8ED9 80.7%);
+}
+
+#agile_service_desk_card .card-title {
+    color: #B472CA;
+}
+
+#agile_service_desk_card .tickets-card-link {
+    color: #DE8ED9;
+}
+
+#hr_service_desk_card {
+    background: linear-gradient(358.54deg, #AAAAAA -18.12%, #A9B7D8 91.17%);
+}
+
+#hr_service_desk_card .card-title {
+    color: #8AA0C5;
+}
+
+#hr_service_desk_card .tickets-card-link {
+    color: #A9B5D0;
+}
+
+#fa_service_desk_card {
+    background: linear-gradient(300deg, #08FBCF 0%, #2EA19F 85%);
+}
+
+#fa_service_desk_card .card-title {
+    color: #2EA19F;
+}
+
+#fa_service_desk_card .tickets-card-link {
+    color: #08FBCF;
+}
+
+#teams_tab_panel .table-responsive {
+    border: 0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
+}
+
+#teams_tab_panel .table-responsive .table {
+    /* margin-bottom: 0 !important; */
+}
+
+#techniciansTable thead td {
+    border-top: 0;
+}
+
+.table-action-btns-container {
+    gap: 12px;
+}

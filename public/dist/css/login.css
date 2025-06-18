@@ -1,0 +1,145 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    height: 100%;
+}
+
+.login-container {
+    height: 100%;
+}
+
+#login_page_logo {
+    width: 225px;
+    height: auto;
+}
+
+.login-section-left {
+    background-color: #D4E2D4 !important;
+}
+
+.login-section-left,
+.login-section-right {
+    min-height: 100vh;
+}
+
+#hero-img-container {
+    margin-top: 25%;
+    text-align: center;
+    position: relative;
+}
+
+#tickets_hero_image {
+    max-width: 100% !important;
+    height: auto;
+    position: relative;
+    z-index: 2;
+}
+
+.office-floor-image-component {
+    background-color: #8A8A8AAB;
+    width: 100%;
+    height: 80px;
+    border-radius: 50%;
+    position: absolute;
+    top: 85%;
+    z-index: 1;
+}
+
+.login-container {
+    min-height: 100vh !important;
+}
+
+#loginFormHeading {
+    font-family: 'Vidaloka', serif;
+    font-size: 2.25rem;
+    font-weight: 400;
+    color: #739D73;
+}
+
+.login-form-container {
+    /* margin-top: 1.5rem; */
+    /* padding: 3.5rem 4.5rem; */
+    padding: 10% 12.5%;
+}
+
+.login-form-input {
+    border: none;
+    outline: 0;
+    border: 0;
+    font-weight: 500;
+    border-radius: 0%;
+    border-bottom: 2px ridge #c3c3c3;
+}
+
+.login-form-input::placeholder {
+    font-weight: 300;
+}
+
+.pos-relative {
+    position: relative;
+}
+
+.login-form-input:focus {
+    box-shadow: none;
+    border-color: #909090;
+}
+
+.login-label {
+    pointer-events: none;
+    position: absolute;
+    transition: 0.25s ease all;
+}
+
+/* .login-form-input:focus~.login-label,
+.login-form-input:not(:focus):valid~.login-label {
+    top: -10px;
+    left: 20px;
+    font-size: 11px;
+    opacity: 1;
+} */
+
+.login-label.initial {
+    font-size: 1rem;
+    top: 0.25rem;
+    left: 1.5rem;
+    color: var(--bs-body-color);
+}
+
+.login-label.input-filled {
+    font-size: 0.75rem;
+    top: -0.8rem;
+    left: 1.5rem;
+    color: #739D73;
+}
+
+#ticketsLoginBtn {
+    background-color: #739D73;
+    width: 50%;
+    color: #fff;
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+    border: 0;
+    border-radius: 1.875rem;
+}
+
+#ticketsLoginBtn:hover,
+#ticketsLoginBtn:active {
+    background-color: #A8BEA8;
+}
+/* Autofill Styles for Chrome */
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+    -webkit-text-fill-color: #000 !important;
+}
+
+/* Autofill Styles for Firefox */
+input:-moz-autofill {
+    box-shadow: 0 0 0 1000px white inset !important;
+    text-fill-color: #000 !important;
+}
+
+/* Autofill Styles for Edge */
+input:-webkit-autofill,
+input:-ms-input-placeholder {
+    box-shadow: 0 0 0 1000px white inset !important;
+    -webkit-text-fill-color: #000 !important;
+}

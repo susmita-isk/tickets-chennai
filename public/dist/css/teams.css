@@ -1,0 +1,18 @@
+.content-wrapper>.content {
+    padding-bottom: 1.5rem;
+}
+
+.table-container .table-responsive {
+    border: 0;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
+}
+
+#teams-container-card {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
+}
+
+#addTeamBtn {}
