@@ -19,7 +19,7 @@ class TicketsApi extends Model
 
     public function __construct()
     {
-        $this->baseUrl   = 'http://192.168.3.250/tickets/v1/public/api';   
+        $this->baseUrl   = 'http://localhost/tickets/v1/public/api';   
         // $this->baseUrl   = 'https://tickets.iskconbangalore.net/v1/public/api';  
         $this->accessKey = '450!#kc@nHKRKkbngPiLnsg@498';
     }
@@ -53,6 +53,7 @@ class TicketsApi extends Model
         $data['password'] = $user_details->password ?? "";
         $data['departmentID'] = session('code');
         $data['role'] = $user_details->user_role;
+        $data['roleName'] = $user_details->roleName;
         $data['teamId'] = $user_details->teamName;
 
         $url = $this->baseUrl . '/add-technician';

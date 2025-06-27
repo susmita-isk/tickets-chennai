@@ -20,7 +20,7 @@ class HrApi extends Model
     public function __construct()
     {
         // $this->accessKey = '729!#kc@nHKRKkbngsppnsg@491';
-        // $this->apiBaseURL = 'https://hr.iskconbangalore.net/v1/api';
+        $this->apiBaseURL = 'https://hr.iskconbangalore.net/v1/api';
     }
 
     /**
@@ -43,8 +43,7 @@ class HrApi extends Model
                 'EMAIL_ID',
                 'HR_EMPLOYEE_ID',
                 'PHOTO',              
-                'IS_ACTIVE',
-                
+                'IS_ACTIVE',                
             );
             $query->when( $employeeName, function ($q , $employeeName) {
                 return $q->where('EMPLOYEE_NAME' ,'like', '%'.$employeeName.'%');

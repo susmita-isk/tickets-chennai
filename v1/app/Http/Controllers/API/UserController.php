@@ -20,31 +20,50 @@ class UserController extends Controller
     public function addNewUser(Request $request)
     {
         $hr_employee_id = $request->employeeID;
-
+ 
         // Check if user currently exists in mstr_users table: if no, create user
         // if yes, add details to map_user_department
         $user = DB::select('select * from mstr_users where EMPLOYEE_ID = ?', [$hr_employee_id]);
-
+ 
         if (count($user)) {
             // Employee ID found in mstr_users, just add mapping
             $user_id = $user[0]->USER_ID;
-
-
-            DB::table('map_user_department')->insert([
-                'USER_ID' => $user_id,
-                'DEPARTMENT_ID' => $request->departmentID,
-                'ROLE' => $request->role
-            ]);
-
-            $this->apiResponse['successCode'] = 1;
-            $this->apiResponse['message'] = 'User added successfully';
-
-            return response()->json($this->apiResponse);
+ 
+            $is_user_exists = DB::table('map_user_department')
+                                ->where('USER_ID', $user_id)
+                                ->where('DEPARTMENT_ID', $request->departmentID)
+                                ->exists();
+ 
+            if (!$is_user_exists) {
+                // User does not exist in map_user_department, add mapping
+                DB::table('map_user_department')->insert([
+                    'USER_ID' => $user_id,
+                    'DEPARTMENT_ID' => $request->departmentID,
+                    'ROLE' => $request->roleName
+                ]);
+   
+                DB::table('ctrl_user_role')->insert([
+                    'LOGIN_ID' => $user_id,
+                    'ROLE_ID' => $request->role
+                ]);
+ 
+                $this->apiResponse['successCode'] = 1;
+                $this->apiResponse['message'] = 'User added successfully';
+   
+                return response()->json($this->apiResponse);
+ 
+            } else {
+                $this->apiResponse['successCode'] = 0;
+                $this->apiResponse['message'] = 'User already exist !';
+   
+                return response()->json($this->apiResponse);            
+            }        
+                       
         } else {
             // Create new user and then add mapping
             try {
                 DB::beginTransaction();
-
+ 
                 // Create new user
                 $user = new User();
                 $user->USER_NAME = $request->userName;
@@ -56,32 +75,37 @@ class UserController extends Controller
                 $user->ACTIVATED_ON = date('Y-m-d H:i:s');
                 $user->ACTIVATED_BY = $request->loggedinUserId;
                 $user->save();
-
+ 
                 $new_user_id = $user->USER_ID;
-
+ 
                 // Add the user-department mapping
                 DB::table('map_user_department')->insert([
                     'USER_ID' => $new_user_id,
                     'DEPARTMENT_ID' => $request->departmentID,
-                    'ROLE' => $request->role
+                    'ROLE' => $request->roleName
                 ]);
-              
+ 
+                DB::table('ctrl_user_role')->insert([
+                    'LOGIN_ID' => $new_user_id,
+                    'ROLE_ID' => $request->role
+                ]);
+             
                 DB::commit();
-
+ 
                 $this->apiResponse['successCode'] = 1;
                 $this->apiResponse['message'] = 'User added successfully';
                 $this->apiResponse['data'] = $user;
-
+ 
                 return response()->json($this->apiResponse);
             } catch (\Exception $e) {
                 //throw $th;
-
+ 
                 DB::rollBack();
-
+ 
                 $this->apiResponse['successCode'] = 0;
                 $this->apiResponse['message'] = 'Could not add user';
                 //  $this->apiResponse['message'] = $e->getMessage();
-
+ 
                 return response()->json($this->apiResponse);
             }
         }

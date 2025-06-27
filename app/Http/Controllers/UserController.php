@@ -55,8 +55,8 @@ class UserController extends Controller
         }
 
         $roles = DB::table('mstr_role')
-            ->select('ROLE_NAME')
-            ->get();
+                    ->select('ROLE_NAME','ROLE_ID')
+                    ->get();
 
         return view('technicians',compact('roles'))
                ->withTeams($response['data']);

@@ -252,7 +252,7 @@ $permission = permission();
                                 <option value="Admin">Admin</option>
                                 <option value="Support Desk">Support Desk</option> -->
                                 @foreach ($roles as $val)
-                                <option value={{$val->ROLE_NAME }}>{{ $val->ROLE_NAME }}</option>
+                                <option value={{$val->ROLE_ID }}>{{ $val->ROLE_NAME }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -320,8 +320,7 @@ $permission = permission();
                     <div class="row">
                         <div class="col form-group">
                             <label for="" class="col-form-label">Email</label>
-                            <input type="text" class="form-control" placeholder="Email" id="technicianEmailEdit"
-                                required>
+                            <input type="text" class="form-control" placeholder="Email" id="technicianEmailEdit">
                         </div>
                     </div>
                     <div class="row">
@@ -1042,7 +1041,11 @@ $(function() {
         e.preventDefault();
 
         // Serialize form data
-        var formData = $(this).serialize();
+        // var formData = $(this).serialize();
+        var formData = new FormData(this); // create FormData object
+
+        let selectedRoleText = $('#userRole option:selected').text();
+        formData.append("roleName", selectedRoleText);
 
         $.ajax({
             method: "post",
@@ -1052,6 +1055,8 @@ $(function() {
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
             },
             data: formData,
+            processData: false,  // required for FormData
+            contentType: false,  // required for FormData
             success: function(data) {
                 console.log("Success");
                 if (data.successCode == 1) {

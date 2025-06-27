@@ -1367,7 +1367,7 @@ $permission = permission();
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="reopen_task_status" class="mb-1">Status</label>
-                                <select class="form-control" id="statusCategorize" name="status" required>
+                                <select class="form-control" id="statusReopen" name="status" required>
                                     <option value="Reopened">Reopened</option>
                                 </select>
                             </div>
@@ -2053,8 +2053,6 @@ $(function() {
     $eventSelect.on("change", function(e) {
         // Get the selected value
         var employeeId = $(this).val();
-
-        // Access the selected option's departmentCode
 
         $.ajax({
             url: '{{ route("employee.get") }}',
@@ -3363,13 +3361,7 @@ $(function() {
 
         var formData = new FormData(this);
         // formData.append('file', $('input[name=file]')[0].files[0]);
-
-        let selectedTeamText = $('#statusUpdateTteamName option:selected').text();
-        let selectedTeamVal = $('#statusUpdateTteamName').val();
-
-        if (selectedTeamVal) {
-            formData.append("teamName", selectedTeamText);
-        }
+        formData.append("teamName", $('#statusUpdateTteamName option:selected').text());
         // console.log(formData);
 
         $.ajax({
@@ -4829,39 +4821,56 @@ $(document).ready(function() {
 $(document).ready(function() {
     var selectedEmployeeId = $('#selectedEmployeeId').val(); // Get selected employee ID
 
-    // Call the API to fetch personal details
-    $.ajax({
-        url: '{{ route("employee.get") }}',
-        method: 'POST', // Change to POST
-        headers: {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-        },
-        data: {
-            // Include any data you want to send with the POST request
-            employeeId: selectedEmployeeId,
-        },
+    if(selectedEmployeeId) {
+         // Call the API to fetch personal details
+        $.ajax({
+            url: '{{ route("employee.get") }}',
+            method: 'POST', // Change to POST
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            data: {
+                // Include any data you want to send with the POST request
+                employeeId: selectedEmployeeId,
+            },
 
-        success: function(response) {
+            success: function(response) {
 
-            // Handle the success response
-            $('#employeeName').text(response[0].employeeName);
-            $('#departmentName').text(response[0].departmentName);
-            $('#emailId').text(response[0].emailId);
-            $('#mobile').text(response[0].mobile);
-            $('#code').text(response[0].department_code);
+                if (Array.isArray(response) && response.length > 0) {
+                    const data = response[0];
+                    $('#employeeName').text(data.employeeName || '');
+                    $('#departmentName').text(data.departmentName || '');
+                    $('#emailId').text(data.emailId || '');
+                    $('#mobile').text(data.mobile || '');
+                    $('#code').text(data.department_code || '');
 
-            // Construct the imageUrl by concatenating photoURL and photoName
-            var imageUrl = response[0].photoURL + response[0].photoName;
+                    // Construct the imageUrl by concatenating photoURL and photoName
+                    var imageUrl = data.photoURL + data.photoName;
 
-            // Set the imageUrl as the source of the image
-            $('#user-photo').attr('src', imageUrl);
+                    // Set the imageUrl as the source of the image
+                    $('#user-photo').attr('src', imageUrl);
+                } else {
+                    // Optionally clear fields if no data returned
+                    $('#employeeName').text('');
+                    $('#departmentName').text('');
+                    $('#emailId').text('');
+                    $('#mobile').text('');
+                    $('#code').text('');
 
-        },
-        error: function(error) {
-            // Handle the error response
-            console.error('Error fetching data:', error);
-        }
-    });
+                    console.warn('No employee data found for selected ID.');
+                }
+
+                // Set the imageUrl as the source of the image
+                $('#user-photo').attr('src', '');
+
+            },
+            error: function(error) {
+                // Handle the error response
+                console.error('Error fetching data:', error);
+            }
+        });
+    }
+
 });
 </script>
 <script>
@@ -5036,8 +5045,6 @@ $(document).ready(function() {
     let isEngineer = "<?php echo userRoleName(); ?>" === "Engineer";
     let toggleBtn = $("#ticketsTasksViewToggleBtn");
 
-    console.log("User Role:", isEngineer); // Debugging Log
-
     // If Engineer, ensure the toggle is checked and show tasks view
     if (isEngineer) {
         toggleBtn.prop("checked", true); // Ensure toggle is checked
@@ -5051,8 +5058,7 @@ $(document).ready(function() {
 
         $("#ticketsTableFilterBtn").hide();
         $("#ticketsTableClearFilterBtn").hide();
-        $("#logTicketBtn").hide();
-        
+        $("#logTicketBtn").hide();        
     }
 
 </script>

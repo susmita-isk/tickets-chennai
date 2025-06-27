@@ -270,7 +270,6 @@ class TicketController extends Controller
 
                 if($row->STATUS == 'Open'){
                     $totalTimeConsumed = $this->getTimeLeft($row->TICKET_ID, $row->TICKET_NO);
-                    // $totalTimeConsumed = $this->getTimeLeft($row->TICKET_ID, $row->TICKET_NO, $row->TECHNICIAN_ID);
 
                     $sla = $row->slaIndicator;
                     if($sla){
@@ -353,7 +352,7 @@ class TicketController extends Controller
 
 
             $departmentCode = DB::table('department_details')
-                                ->where('DEPARTMENT_ID', \session('code'))
+                                ->where('DEPARTMENT_ID', session('code'))
                                 ->value('DEPARTMENT_CODE');
 
             $empname = preg_replace("/\s*\(.*?\)/", "", $request->employeeName);
@@ -422,7 +421,7 @@ class TicketController extends Controller
                             $pretask->TEAM_NAME       = $ticket->TEAM_NAME;
                             $pretask->REQUESTED_BY    = $ticket->REQUESTED_BY;
                             $pretask->USER_NAME       = $ticket->USER_NAME;
-                            $pretask->USER_MAIL       = $ticket->USER_MAIL;
+                            $pretask->USER_MAIL       = ($ticket->USER_MAIL) ? $ticket->USER_MAIL : null;
                             $pretask->DEPARTMENT_CODE = $ticket->DEPARTMENT_CODE;
                             $pretask->DEPARTMENT_NAME = $ticket->DEPARTMENT_NAME;
                             $pretask->CREATED_BY      = 'Ticketadmin';
@@ -431,6 +430,8 @@ class TicketController extends Controller
                             $pretask->save();
                         }                       
                     }
+
+
                     // Convert the filtered collection to a plain array
                     $attachmentsArray =  session('attachments') ?? [];
 
@@ -461,39 +462,14 @@ class TicketController extends Controller
                             $iterationNumber++;
                         }
                     }
+                    createLogActivity('Log Ticket',$serialNumber,'TICKET NO',Auth::user()->LOGIN_ID);  
 
-                    $response = Http::post('https://hr.iskconbangalore.net/v1/api/login/employee-fcmid', [
-                        'accessKey'  => '729!#kc@nHKRKkbngsppnsg@491', 
-                        'employeeID' =>  ($request->employeeId) ? $request->employeeId : $request->selectedEmployee,
-                        // Add any parameters required by the API
-                    ]);
-
-                    // Check if the request was successful
-                    if ($response->successful()) {
-                        // API call was successful, handle response
-                        $responseData = $response->json(); // Get response data as JSON                
-
-                        // Process the response data
-                        $fcmId = $responseData['fcmId'][0]['FCM_ID'];
-                        
-                        if($fcmId){
-                            $ticketUserName = $request->employeeName;
-                            $ticketDepartmentName = $request->departmentName;
-
-                            $formattedName = $ticketUserName . " (" . $ticketDepartmentName . ")";
-
-                            $body =  $serialNumber ." - ". $request->subject;
-                            
-                            $title = "Ticket Logged";
-
-                            $this->sendNotification($fcmId, $body , $title);  
-                        }              
-                    } else {
-                        // API call failed
-                        $statusCode = $response->status(); // Get HTTP status code
-                        $data[] = $statusCode;
-                    }
-
+                    $this->apiResponse['successCode']  = 1;
+                    $this->apiResponse['message']      = 'Successful';
+                    $this->apiResponse['data']         = $ticket;
+                });
+                try{
+                  
                     $mailFrom = DB::table('department_details')
                                 ->where('DEPARTMENT_ID', session('code'))
                                 ->first();
@@ -513,8 +489,7 @@ class TicketController extends Controller
                     
                     $mailId = $request->employeeMail;
                     
-                    if($request->employeeMail){
-
+                    if($mailId){
                         config([
                             'mail.mailers.smtp.host' => $mailFrom->MAIL_HOST,
                             'mail.mailers.smtp.port' => 587,
@@ -524,29 +499,15 @@ class TicketController extends Controller
                             'mail.from.address' => $mailFrom->SUPPORT_EMAIL_ID,
                             'mail.from.name' => $mailFrom->DISPLAY_NAME,
                         ]);    
-
-                        if(session('code') == 1){                                                     
-                            
-                            Mail::html($body, function ($message) use ($subject, $mailId, $mailFrom) {
-                                $message->from($mailFrom->SUPPORT_EMAIL_ID, $mailFrom->DISPLAY_NAME)
-                                ->to($mailId)->subject($subject);
-                                // ->bcc('ashwini.e@iskconbangalore.org');                    
-                            });
-                        }
-                        else{
-                            Mail::html($body, function ($message) use ($subject, $mailId, $mailFrom) {
-                                $message->from($mailFrom->SUPPORT_EMAIL_ID, $mailFrom->DISPLAY_NAME)
-                                ->to($mailId)->subject($subject);                   
-                            });
-                        }                        
+                       
+                        Mail::html($body, function ($message) use ($subject, $mailId, $mailFrom) {
+                            $message->from($mailFrom->SUPPORT_EMAIL_ID, $mailFrom->DISPLAY_NAME)
+                            ->to($mailId)->subject($subject);                   
+                        });                
                     }
-
-                    createLogActivity('Log Ticket',$serialNumber,'TICKET NO',Auth::user()->LOGIN_ID);  
-
-                    $this->apiResponse['successCode']  = 1;
-                    $this->apiResponse['message']      = 'Successful';
-                    $this->apiResponse['data']         = $ticket;
-                });
+                }
+                catch(Exception $e){
+                }                   
             }     
             else{
 
@@ -669,21 +630,22 @@ class TicketController extends Controller
                                 // Increment the iteration number
                                 $iterationNumber++;
                             }
-                        }     
+                        }  
+                    });     
                         
-                        createLogActivity('Log Ticket',$serialNumber,'TICKET NO',Auth::user()->LOGIN_ID); 
+                    createLogActivity('Log Ticket',$serialNumber,'TICKET NO',Auth::user()->LOGIN_ID); 
 
-                        if($ticket){
-                            $this->apiResponse['successCode']  = 1;
-                            $this->apiResponse['message']      = 'Successfully Created';
-                            $this->apiResponse['data']         = $ticket;
-                        }
-                        else{
-                            $this->apiResponse['successCode']  = 0;
-                            $this->apiResponse['message']      = 'Failed to Create !!';
-                            $this->apiResponse['data']         = [];
-                        }                        
-                    });                   
+                    if($ticket){
+                        $this->apiResponse['successCode']  = 1;
+                        $this->apiResponse['message']      = 'Successfully Created';
+                        $this->apiResponse['data']         = $ticket;
+                    }
+                    else{
+                        $this->apiResponse['successCode']  = 0;
+                        $this->apiResponse['message']      = 'Failed to Create !!';
+                        $this->apiResponse['data']         = [];
+                    }                        
+                                     
                 }                               
             }            
                        
