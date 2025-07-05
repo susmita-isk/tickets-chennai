@@ -2656,7 +2656,7 @@ class TicketController extends Controller
             return response()->json(['success' => true, 'message' => 'Recurring tickets logged successfully.']);
         } 
         catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => "Error Try Again, ".$e->getMessage()]);
+            return response()->json(['success' => false, 'message' => "Error Try Again, "]);
         }
     }
   
@@ -2760,7 +2760,7 @@ class TicketController extends Controller
             return response()->json(['success' => true, 'message' => 'Notification Sent successfully.']);
         }
         catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+            return response()->json(['success' => false, 'message' => "Error please try again."]);
         }
     }
 
@@ -2850,7 +2850,7 @@ class TicketController extends Controller
             }            
         }
         catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+            return response()->json(['success' => false, 'message' => "Error please try again."]);
         }
     }
 
@@ -3202,7 +3202,7 @@ class TicketController extends Controller
             return response()->json(['success' => true, 'message' => 'Pending Tickets Reports Sent Successfully.']);
         }
         catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => "Error Please Try Again", $e->getMessage()]);
+            return response()->json(['success' => false, 'message' => "Error Please Try Again",]);
         }
     }
 

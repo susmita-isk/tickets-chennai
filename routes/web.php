@@ -124,11 +124,14 @@ Route::get('/tickets/{id?}', [TicketController::class, 'index'])->name('tickets'
         Route::post('technicians/add', [UserController::class, 'addUser'])->name('technicians.add');
         Route::post('technicians/change-status', [UserController::class, 'changeStatus'])->name('technicians.status');
         Route::post('technicians/edit', [UserController::class, 'editUser'])->name('technicians.edit');
+        Route::post('technicians/role-edit', [UserController::class, 'editUserRole'])->name('technicians.role.edit');
         Route::get('teams', [UserController::class, 'getTeams'])->name('teams');
         Route::post('team-create', [UserController::class, 'storeTeam'])->name('team.create');
         Route::get('teams-teachnicians', [UserController::class, 'getTeamTeachnicians'])->name('teams-teachnicians');
         Route::post('assign-technician', [UserController::class, 'assignTechnician'])->name('teams-teachnicians.assign');
         Route::post('remove-technician', [UserController::class, 'removeTechnician'])->name('teams-teachnicians.remove');
+        
+        Route::post('team/sla-on', [UserController::class, 'teamSlaOn'])->name('teams.sla.on');
 
         Route::post('is-team-members-eligible', [UserController::class, 'isTeamMembersEligible'])->name('is-team.menbers.eligible');
         // Route::get('tickets/dept/{department}', function ($department) {

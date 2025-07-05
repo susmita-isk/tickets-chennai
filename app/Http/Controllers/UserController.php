@@ -31,7 +31,7 @@ class UserController extends Controller
             ->when(request('employeeId'),  fn ($query) => $query->where('mstr_users.EMPLOYEE_ID', request('employeeId')))
             ->when(request('role'),        fn ($query) => $query->where('map_user_department.ROLE', request('role')))
            
-        //    ->orderByRaw("CASE WHEN ACTIVE_FLAG = 'Y' THEN 1 ELSE 0 END")
+            // ->orderByRaw("CASE WHEN ACTIVE_FLAG = 'Y' THEN 1 ELSE 0 END")
             ->select('mstr_users.*', 'map_user_department.ROLE')
             ->orderBy('ACTIVATED_ON','desc')
             ->get();
@@ -46,6 +46,9 @@ class UserController extends Controller
                         </button>
                         <button class="btn tickets-action-btn-transparent" onClick="edit(' . $row['USER_ID'] . ',\'' . $row['USER_NAME'] . '\',\'' . $row['MOBILE_NUMBER'] . '\',\'' . $row['LOGIN_ID'] . '\',\'' . $row['EMAIL'] . '\')" title="Edit" data-toggle="modal">
                             <i class="fa fa-edit"></i>
+                        </button>
+                        <button class="btn tickets-action-btn-transparent" onClick="roleChange(' . $row['USER_ID'] . ',\'' . $row['USER_NAME'] . '\',\'' . $row['ROLE'] . '\')" title="Role Change" data-toggle="modal">
+                            <i class="fa fa-sync" aria-hidden="true"></i>
                         </button>
                     </div>';
                     return $btn;
@@ -180,6 +183,33 @@ class UserController extends Controller
         return response()->json(['message' => 'Success']);        
     }
 
+    public function editUserRole(Request $request)
+    {
+        $map_user_department = DB::table('map_user_department')
+                                ->where('USER_ID', $request->technicianId)
+                                ->where('DEPARTMENT_ID', session('code'))
+                                ->first();
+
+        $ctrl_user_role = DB::table('ctrl_user_role')
+                            ->where('LOGIN_ID', $request->technicianId)
+                            ->first();
+
+        if ($map_user_department && $ctrl_user_role) {
+            DB::table('ctrl_user_role')
+                ->where('LOGIN_ID', $request->technicianId)
+                ->update(['ROLE_ID' => $request->roleId]);
+
+            DB::table('map_user_department')
+                ->where('USER_ID', $request->technicianId)
+                ->where('DEPARTMENT_ID', session('code'))
+                ->update(['ROLE' => $request->roleName]);
+
+            return response()->json(['message' => 'Role updated successfully']);
+        } else {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+    }
+
     public function  getTeams(Request $request)
     {
         if ($request->ajax()) {
@@ -192,9 +222,12 @@ class UserController extends Controller
     
             return Datatables::of($teams)->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<div class="d-flex justify-content-center table-actions-container">
-                                <button class="btn tickets-action-btn-transparent" onClick="assign(' . $row->TEAM_ID . ',\'' .addslashes(str_replace(array("\r", "\n"), '', $row->TEAM_NAME)) . '\')" title="Assign">
+                    $btn = '<div class="table-actions-container">
+                                <button class="btn tickets-action-btn-transparent mr-3" onClick="assign(' . $row->TEAM_ID . ',\'' .addslashes(str_replace(array("\r", "\n"), '', $row->TEAM_NAME)) . '\')" title="Assign">
                                     <img src="' . asset('public/img/icons/assign-ticket.png') . '" alt="" height="20">
+                                </button>
+                                 <button class="btn tickets-action-btn-transparent" onClick="editTeam(' . $row->TEAM_ID . ',\'' .addslashes(str_replace(array("\r", "\n"), '', $row->TEAM_NAME)) . '\',\'' . $row->IS_ACTIVE . '\',\''. $row->SLA_ON .'\')" title="Edit" data-toggle="modal">
+                                    <img src="' . asset('public/img/icons/edit-btn.png') . '" alt="" height="20">
                                 </button>
                             </div>';
                     return $btn;
@@ -255,6 +288,19 @@ class UserController extends Controller
 
         // Process each technician in the request
         foreach ($request->technicians as $value) {
+
+            $userTeamExist = DB::table('map_user_team')
+                            ->where('USER_ID',$value)
+                            ->where('TEAM_ID',$request->teamId)
+                            ->first();
+                            
+            if(!$userTeamExist){
+                DB::table('map_user_team')->insert([
+                    'USER_ID' => $value,
+                    'TEAM_ID' => $request->teamId
+                ]);
+            }
+
             // Check if the technician is already active
             if (in_array($value, $currentActiveTechnicians)) {
                 // Technician is already active, update the record
@@ -274,6 +320,7 @@ class UserController extends Controller
                 // to track which technicians are still active after processing
                 $key = array_search($value, $currentActiveTechnicians);
                 unset($currentActiveTechnicians[$key]);
+
             } else {
                 // Technician is new, insert a new record
                 DB::table('team_members')->insert([
@@ -330,6 +377,22 @@ class UserController extends Controller
             return response()->json(['success' => true, 'message' => 'Eligibility updated successfully.']);
         } else {
             return response()->json(['success' => false, 'message' => 'No changes made or member not found.']);
+        }
+    }
+    public function teamSlaOn(Request $request)
+    {
+        // Update the SLA ON time for the team
+        $updated = DB::table('team')
+                    ->where('TEAM_ID', $request->teamId)
+                    ->where('DEPARTMENT_ID', session('code'))
+                    ->update(['SLA_ON' => $request->sla_on_time,
+                              'IS_ACTIVE' => $request->team_is_active
+                            ]);
+
+        if ($updated) {
+            return response()->json(['success' => true, 'message' => 'Team Data updated successfully.']);
+        } else {
+            return response()->json(['success' => false, 'message' => 'No changes found.']);
         }
     }
 }

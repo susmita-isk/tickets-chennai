@@ -24,7 +24,7 @@ class CategoryController extends Controller
         $subcategories = $api->getSubCategories([]);
         $subItems = DB::table('lkp_item')->where('ACTIVE_FLAG', 'Y')->get();
         
-        if ($request->ajax()) {
+        if ($request->ajax() && !empty($categories)) { // put if $categories not empty
 
             return Datatables::of($categories['data'])->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -33,6 +33,12 @@ class CategoryController extends Controller
                                 <img src="'. asset('public/img/icons/edit-btn.png') .'" alt="Edit" height="20">
                             </button>
                         </div>';
+
+                    // $btn = '<div class="d-flex justify-content-between table-actions-container">
+                    //     <button class="btn tickets-action-btn-transparent" onclick="getCategInfo('. $row->categoryId .')"  title="Edit">
+                    //         <img src="'. asset('public/img/icons/edit-btn.png') .'" alt="Edit" height="20">
+                    //     </button>
+                    // </div>';
 
                     return $btn;
                 })

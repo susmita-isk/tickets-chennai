@@ -264,31 +264,31 @@ $permission = permission();
                                 <option value="">Please Select</option>
                                  @foreach ($teams as $item)
                                  <option value={{ $item['teamId'] }}>{{ $item['teamName'] }}</option>
-                    @endforeach
-                    </select>
-            </div>
-        </div> --}}
-        <div class="row d-none" id="newUserCredentialsRow">
-            <div class="col form-group">
-                <label for="addTechnicianUserID" class="col-form-label">User ID</label>
-                <input type="text" class="form-control" name="login_id" id="addTechnicianUserID"
-                    placeholder="Login ID">
-            </div>
-            <div class="col form-group">
-                <label for="addTechnicianPassword" class="col-form-label">Password</label>
-                <input type="password" class="form-control" name="password" id="addTechnicianPassword"
-                    placeholder="Password">
+                                @endforeach
+                                </select>
+                        </div>
+                    </div> --}}
+                    <div class="row d-none" id="newUserCredentialsRow">
+                        <div class="col form-group">
+                            <label for="addTechnicianUserID" class="col-form-label">User ID</label>
+                            <input type="text" class="form-control" name="login_id" id="addTechnicianUserID"
+                                placeholder="Login ID">
+                        </div>
+                        <div class="col form-group">
+                            <label for="addTechnicianPassword" class="col-form-label">Password</label>
+                            <input type="password" class="form-control" name="password" id="addTechnicianPassword"
+                                placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col text-center">
+                            <button class="btn btn-success tickets-modal-submit-btn">Save</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
-        <div class="row">
-            <div class="col text-center">
-                <button class="btn btn-success tickets-modal-submit-btn">Save</button>
-            </div>
-        </div>
-        </form>
     </div>
-</div>
-</div>
 </div>
 
 <!-- Modal for Editing Technician Details -->
@@ -326,21 +326,61 @@ $permission = permission();
                     <div class="row">
                         <div class="col form-group">
                             <label for="" class="col-form-label">Login</label>
-                            <input type="text" class="form-control" placeholder="Login" id="technicianLoginEdit"
+                            <input type="text" class="form-control" placeholder="Login" id="technicianLoginEdit" mxlength="20"
                                 required>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col form-group">
                         <label for="" class="col-form-label">Password</label>
-                            <input type="text" class="form-control" placeholder="password" id="technicianPasswordEdit"
-                                required>
+                            <input type="text" class="form-control" placeholder="password" id="technicianPasswordEdit" required>
 
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12 text-center">
                             <button class="btn btn-success tickets-modal-submit-btn" id="editTechnician">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Editing Technician Role Details -->
+<div class="modal tickets-modal fade" id="technicianRoleChangeModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Edit Role
+                <button class="close" data-dismiss="modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="technicianRoleChange">
+                    @csrf
+                    <input type="hidden" name="technicianUserId" id="technicianUserId">
+                    <div class="row">
+                        <div class="col form-group">
+                            <label for="" class="col-form-label">Technician Name</label>
+                            <input type="text" class="form-control" placeholder="Enter Name" id="technicianRoleNameEdit"
+                                required disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col form-group">
+                            <label for="" class="col-form-label">Role</label>
+                            <select name="technicianRoleEdit" id="technicianRoleEdit" class="form-control" required>
+                                <option value="">Please Select</option>
+                                @foreach ($roles as $val)
+                                <option value={{$val->ROLE_ID }}>{{ $val->ROLE_NAME }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <button class="btn btn-success tickets-modal-submit-btn" id="technicianRoleChange">Save</button>
                         </div>
                     </div>
                 </form>
@@ -464,51 +504,92 @@ $permission = permission();
     </div>
 </div>
 
+<!-- Modal for Technician Tam Assign -->
 <div class="modal tickets-modal fade" id="assignTechnicianModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">Add Techncians for <span id="teamName"></span> </div>
+                <div class="modal-body">
+                    <form>
+                        @csrf
+                        <div class="row">
+                            <input type="hidden" name="teamId" id="teamId">
+                            <div class="col-sm-12 mb-3">
+                                <select name="technicianInput" id="technicianInput" class="technician" multiple>
+                                </select>
+                            </div>
+                            <div class="col-12 mb-2 text-right">
+                                <button type="button" class="btn tickets-modal-submit-btn"
+                                    id="assignTechnicianBtn">Add</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal for Team SLA ON -->
+<div class="modal tickets-modal fade" id="teamSLAONModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                SLA ON for : &nbsp;<span id="teamNameSLAON"></span>
+                <button class="close" data-dismiss="modal"><i class="fas fa-times"></i></button>
+            </div>
             <div class="modal-body">
-                <form>
+                <form id="teamSLAONForm">
                     @csrf
+                    <input type="hidden" name="teamIdSlaOn" id="teamIdSlaOn">                  
                     <div class="row">
-                        <input type="hidden" name="teamId" id="teamId">
-                        <div class="col-sm-12 mb-3">
-                            <select name="technicianInput" id="technicianInput" class="technician" multiple>
+                        <div class="col form-group">
+                            <label for="" class="col-form-label">SLA On</label>
+                            <select name="sla_on_time" id="sla_on_time" class="form-control" required>
+                                <option value="">Please Select</option>
+                                <option value="CREATED_ON">CREATED ON</option>
+                                <option value="ASSIGNED_ON">ASSIGNED ON</option>                                
                             </select>
+                        </div>                        
+                    </div>
+                    <div class="row">
+                        <div class="col form-group">
+                            <label for="" class="col-form-label">Is Active?</label>
+                            <input type="checkbox" class="green-checkbox ml-2" name="team_is_active" id="team_is_active">
                         </div>
-                        <div class="col-12 mb-2 text-right">
-                            <button type="button" class="btn tickets-modal-submit-btn"
-                                id="assignTechnicianBtn">Add</button>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <button class="btn btn-success tickets-modal-submit-btn" id="editTeam">Save</button>
                         </div>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-</div>
+<!-- Modal for Adding Team -->
 <div class="modal tickets-modal fade" id="addTeamModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">Add Team</div>
-            <div class="modal-body">
-                <form>
-                    @csrf
-                    <div class="row">
+                <div class="modal-body">
+                    <form>
+                        @csrf
+                        <div class="row">
 
-                        <div class="col-sm-12 mb-3">
-                            <input type="text" id="teamNameStore" name="teamName" class="form-control"
-                                placeholder="Team">
-                        </div>
+                            <div class="col-sm-12 mb-3">
+                                <input type="text" id="teamNameStore" name="teamName" class="form-control"
+                                    placeholder="Team">
+                            </div>
 
-                        <div class="col-12 mb-2 text-right">
-                            <button type="button" class="btn tickets-modal-submit-btn" id="addTeamBtn">Add</button>
-                        </div>
-                </form>
+                            <div class="col-12 mb-2 text-right">
+                                <button type="button" class="btn tickets-modal-submit-btn" id="addTeamBtn">Add</button>
+                            </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 
 
@@ -1111,9 +1192,19 @@ $(function() {
                 'X-CSRF-TOKEN': csrfToken // Include the CSRF token in the headers
             },
             success: function(response) {
-                // Handle success response
-                alert('Form submitted successfully!');
+                // Handle success response                
+                toastr.success('Data updated successfully!', {
+                        closeButton: true
+                    });
                 $('#editTechnicianDetailsModal').modal('hide');
+                // clear the form field value
+                $('#technicianIdEdit').val('');
+                $('#technicianNameEdit').val('');
+                $('#technicianMobileEdit').val('');
+                $('#technicianEmailEdit').val('');
+                $('#technicianLoginEdit').val('');
+                $('#technicianPasswordEdit').val('');
+                // Reload the technicians table
                 $('#techniciansTable').DataTable().ajax.reload(null, false);
             },
             error: function(xhr, status, error) {
@@ -1124,7 +1215,77 @@ $(function() {
     });
 
 
+    $('#technicianRoleChange').on('submit', function(e) {
+        e.preventDefault(); // Prevent the default form submission
 
+        // Get form data
+        var formData = {
+            technicianId: $('#technicianUserId').val(),
+            technicianName: $('#technicianRoleNameEdit').val(),
+            roleId: $('#technicianRoleEdit').val(),
+            roleName: $('#technicianRoleEdit option:selected').text() // Get the selected role name
+        };
+
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+        // Perform AJAX request
+        $.ajax({
+            url: "{{ route('technicians.role.edit') }}", // Replace with your server endpoint
+            type: 'POST',
+            data: formData,
+            headers: {
+                'X-CSRF-TOKEN': csrfToken // Include the CSRF token in the headers
+            },
+            success: function(response) {
+                // Handle success response
+                toastr.success('Role updated successfully!', {
+                        closeButton: true
+                    });
+                $('#technicianRoleChangeModal').modal('hide');
+                $('#techniciansTable').DataTable().ajax.reload(null, false);
+            },
+            error: function(xhr, status, error) {
+                // Handle error response
+                alert('An error occurred: ' + error);
+            }
+        });
+    });
+
+    $('#teamSLAONForm').on('submit', function(e) {
+        e.preventDefault(); // Prevent the default form submission
+
+        // Get form data
+        var formData = {
+            teamId: $('#teamIdSlaOn').val(),
+            teamName: $('#teamNameSLAON').text().trim(),
+            sla_on_time: $('#sla_on_time').val(),
+            team_is_active: $('#team_is_active').is(':checked') ? 'Y' : 'N'
+        };
+
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+        // Perform AJAX request
+        $.ajax({
+            url: "{{ route('teams.sla.on') }}", // Replace with your server endpoint
+            type: 'POST',
+            data: formData,
+            headers: {
+                'X-CSRF-TOKEN': csrfToken // Include the CSRF token in the headers
+            },
+            success: function(response) {
+                // Handle success response
+                toastr.success('Team Data updated successfully!', {
+                        closeButton: true
+                    });
+                $('#teamSLAONModal').modal('hide');
+                $('#teamTable').DataTable().ajax.reload(null, false);
+            },
+            error: function(xhr, status, error) {
+                // Handle error response
+                alert('An error occurred: ' + error);
+            }
+        });
+    });
 
     /* ---------------------------------------------------------------------------------- */
 
@@ -1152,6 +1313,23 @@ function edit(id, name, mobile, loginId, email) {
     $('#technicianLoginEdit').val(loginId);    
     $('#editTechnicianDetailsModal').modal('show');
 }
+
+function roleChange(id, name, roleName) {
+    $('#technicianUserId').val(id); 
+    $('#technicianRoleNameEdit').val(name);
+
+    // Set the role in the select dropdown text selection
+    $('#technicianRoleEdit option').each(function () {
+        if ($(this).text().trim() === roleName.trim()) {
+            $(this).prop('selected', true);
+        } else {
+            $(this).prop('selected', false);
+        }
+    });
+    // $('#technicianRoleEdit').val(role);
+    $('#technicianRoleChangeModal').modal('show');
+}
+
 
 function assign(id, name) {
     $('#teamName').html(name);
@@ -1182,6 +1360,22 @@ function assign(id, name) {
     });
 
     $('#assignTechnicianModal').modal('show');
+}
+
+function editTeam(id, name, status,slaOn) {    
+
+    $('#teamNameSLAON').html(name);
+    $('#teamIdSlaOn').val(id);
+
+    $('#sla_on_time').val(slaOn); // Set the SLA ON time if available
+
+    var status = status.trim(); // Ensure status is trimmed of any whitespace
+    if (status === 'Y') {
+        $('#team_is_active').prop('checked', true); // Set the checkbox to checked if status is 'Y'
+    } else {
+        $('#team_is_active').prop('checked', false); // Set the checkbox to unchecked if status is 'N'
+    }
+    $('#teamSLAONModal').modal('show');
 }
 
 function remove(id) {
